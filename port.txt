@@ -1,10 +1,49 @@
-5000-5500
-7000-8000
-8393-8400
-10000-10010
-16300-16350
-27000-27100
-27015-27050
-27031-27036
-3074
-4000-4500
+2.1 Nhận giọng nói từ micro
+python
+Sao chép
+Chỉnh sửa
+import speech_recognition as sr
+
+r = sr.Recognizer()
+with sr.Microphone() as source:
+    print("Nói gì đó đi...")
+    audio = r.listen(source)
+    text = r.recognize_google(audio, language="vi-VN")
+    print("Bạn nói:", text)
+
+2.2 Gửi văn bản lên OpenAI GPT
+python
+Sao chép
+Chỉnh sửa
+import openai
+
+openai.api_key = "sk-xxxxxx"
+
+response = openai.ChatCompletion.create(
+    model="gpt-3.5-turbo",
+    messages=[{"role": "user", "content": text}]
+)
+reply = response.choices[0].message.content
+print("ChatGPT trả lời:", reply)
+
+2.3 Đọc kết quả bằng giọng nói
+python
+Sao chép
+Chỉnh sửa
+import pyttsx3
+
+engine = pyttsx3.init()
+engine.say(reply)
+engine.runAndWait()
+
+GIAI ĐOẠN 3: TÍCH HỢP THÀNH 1 VÒNG LẶP
+Viết file mimi.py:
+
+python
+Sao chép
+Chỉnh sửa
+while True:
+    # 1. Ghi âm giọng nói
+    # 2. Nhận diện thành text
+    # 3. Gửi GPT API
+    # 4. TTS đọc lại
